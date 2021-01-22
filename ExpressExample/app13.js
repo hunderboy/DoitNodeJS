@@ -75,7 +75,7 @@ var storage = multer.diskStorage({
 		// 시간정보를 이름에 추가하여 항상 고유하게 설정
 		// callback(null, file.originalname + Date.now()) 
 		
-		// 만약에 이미지파일일 경우 png 라는 확장자를 살리고 싶으면
+		// 위의 방식이 아닌, 만약에 이미지파일일 경우 png 라는 확장자를 살리고 싶으면
 		var extension = path.extname(file.originalname); // 확장자만 추출
 		var basename = path.basename(file.originalname, extension); // 파일 이름만 추출
 		// 이렇게 하면 파일이름은 EX) exampleFile.png 이러한 형태로 된다.
