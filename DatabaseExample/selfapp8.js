@@ -47,20 +47,21 @@ app.use(expressSession({
 
 //===== 데이터베이스 연결 =====//
 
-// 몽고디비 모듈 사용
+// mysql DB를 사용할수 있는 mysql 모듈 호출하기
 var mysql = require('mysql');
-
-
 //===== MySQL 데이터베이스 연결 설정 =====//
-var pool      =    mysql.createPool({
-    connectionLimit : 10, 
-    host     : 'localhost',
-    user     : 'root',
-    password : '132dktmskf',
+var pool = mysql.createPool({
+    connectionLimit : 64, 
+    host     : 'maria-1.c8ai8geszcmt.ap-northeast-2.rds.amazonaws.com',
+    user     : 'everex_admin',
+    password : 'EverEX2019~!AWS',
     database : 'test',
     debug    :  false
 });
 
+// host     : 'localhost',
+// user     : 'root',
+// password : '132dktmskf',
 
 
 
