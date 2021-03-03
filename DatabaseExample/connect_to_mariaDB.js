@@ -56,7 +56,6 @@ var confirmConnection = function() {
         	if (conn) {
                 conn.release();  // 반드시 해제해야 함 - 에러시 connection 객체를 반납한다는 의미
             }
-            
             callback(err, null);
             return;
         }   
@@ -87,12 +86,18 @@ var confirmConnection = function() {
             
             console.log(rows);
             console.log(fields);
-            var result = 'rows : ' + JSON.stringify(rows) + '<br><br>' +
-                'fields : ' + JSON.stringify(fields);
-            res.send(result);
+
+            var result = 
+            'rows : ' + JSON.stringify(rows)
+             + '<br><br>' +
+            'fields : ' + JSON.stringify(fields);
 
 
-            // console.log('select 결과 : ' + result);
+
+
+            // res.send(result);
+
+            console.log('select 결과 : ' + result);
             // callback(null, result);
         });
 
@@ -129,4 +134,3 @@ http.createServer(app).listen(app.get('port'), function(){
   confirmConnection();
 
 });
-
