@@ -1,42 +1,43 @@
-
 // Express 기본 모듈 불러오기
 var express = require('express')
   , http = require('http')
   , path = require('path');
-
 // Express의 미들웨어 불러오기
 var bodyParser = require('body-parser')
   , cookieParser = require('cookie-parser')
   , static = require('serve-static')
   , errorHandler = require('errorhandler');
-
 // 에러 핸들러 모듈 사용
 var expressErrorHandler = require('express-error-handler');
-
 // Session 미들웨어 불러오기
 var expressSession = require('express-session');
 
+//===== 데이터베이스 연결 =====//
+// mysql DB를 사용할수 있는 mysql 모듈 호출하기
+var mysql = require('mysql');
+//===== MySQL 데이터베이스 연결 설정 =====//
+var pool = mysql.createPool({
+    connectionLimit : 64, 
+    host     : 'localhost', // 127.0.0.1
+    user     : 'root',
+    password : 'EverEX2019~!AWS',
+    database : 'everexdb',
+    debug    :  false
+});
 
 
 // 익스프레스 객체 생성
 var app = express();
-
-
-// 기본 속성 설정
+// 설정 파일에 들어있는 port 정보 사용하여 포트 설정
 app.set('port', process.env.PORT || 3000);
-
 // body-parser를 이용해 application/x-www-form-urlencoded 파싱
 app.use(bodyParser.urlencoded({ extended: false }))
-
 // body-parser를 이용해 application/json 파싱
 app.use(bodyParser.json())
-
 // public 폴더를 static으로 오픈
 app.use('/public', static(path.join(__dirname, 'public')));
- 
 // cookie-parser 설정
 app.use(cookieParser());
-
 // 세션 설정
 app.use(expressSession({
 	secret:'my key',
@@ -45,28 +46,16 @@ app.use(expressSession({
 }));
 
 
-//===== 데이터베이스 연결 =====//
-
-// mysql DB를 사용할수 있는 mysql 모듈 호출하기
-var mysql = require('mysql');
-//===== MySQL 데이터베이스 연결 설정 =====//
-var pool = mysql.createPool({
-    connectionLimit : 64, 
-    host     : 'maria-1.c8ai8geszcmt.ap-northeast-2.rds.amazonaws.com',
-    user     : 'everex_admin',
-    password : 'EverEX2019~!AWS',
-    database : 'test',
-    debug    :  false
-});
-
-// host     : 'localhost',
-// user     : 'root',
-// password : '132dktmskf',
 
 
 
+
+
+
+
+
+//--------------------------------------------------------------------------------------
 //===== 라우팅 함수 등록 =====//
-
 // 라우터 객체 참조
 var router = express.Router();
 
@@ -125,10 +114,6 @@ router.route('/process/adduser').post(function(req, res) {
 	
 });
 
-
-
-
-
 // 로그인 라우팅 함수 - 데이터베이스의 정보와 비교
 router.route('/process/login').post(function(req, res) {
 	console.log('/process/login 호출됨.');
@@ -177,6 +162,7 @@ router.route('/process/login').post(function(req, res) {
 
 // 라우터 객체 등록
 app.use('/', router);
+//--------------------------------------------------------------------------------------
 
 
 
@@ -184,6 +170,9 @@ app.use('/', router);
 
 
 
+
+
+//--------------------------------------------------------------------------------------
 //사용자를 등록하는 함수
 var addUser = function(id, name, age, password, callback) {
 	console.log('addUser 호출됨 : ' + id + ', ' + password + ', ' + name + ', ' + age);
@@ -231,10 +220,6 @@ var addUser = function(id, name, age, password, callback) {
 	
 }
 
-
-
-
-
 // 사용자를 인증하는 함수
 var authUser = function(database, id, password, callback) {
 	console.log('authUser 호출됨 : ' + id + ', ' + password);
@@ -258,7 +243,7 @@ var authUser = function(database, id, password, callback) {
 	    }
 	});
 }
-
+//--------------------------------------------------------------------------------------
 
 
 
